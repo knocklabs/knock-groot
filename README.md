@@ -20,7 +20,7 @@ $ npm install -g knock-groot
 $ groot COMMAND
 running command...
 $ groot (--version)
-knock-groot/0.0.0 darwin-arm64 node-v16.14.0
+knock-groot/0.0.1 darwin-arm64 node-v16.14.0
 $ groot --help [COMMAND]
 USAGE
   $ groot COMMAND
@@ -29,8 +29,7 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`groot hello PERSON`](#groot-hello-person)
-* [`groot hello world`](#groot-hello-world)
+* [`groot hello`](#groot-hello)
 * [`groot help [COMMANDS]`](#groot-help-commands)
 * [`groot plugins`](#groot-plugins)
 * [`groot plugins:install PLUGIN...`](#groot-pluginsinstall-plugin)
@@ -42,45 +41,14 @@ USAGE
 * [`groot plugins:uninstall PLUGIN...`](#groot-pluginsuninstall-plugin-2)
 * [`groot plugins update`](#groot-plugins-update)
 
-## `groot hello PERSON`
-
-Say hello
+## `groot hello`
 
 ```
 USAGE
-  $ groot hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
+  $ groot hello
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/knocklabs/knock-groot/blob/v0.0.0/dist/commands/hello/index.ts)_
-
-## `groot hello world`
-
-Say hello world
-
-```
-USAGE
-  $ groot hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ groot hello world
-  hello world! (./src/commands/hello/world.ts)
-```
+_See code: [dist/commands/hello/index.ts](https://github.com/knocklabs/knock-groot/blob/v0.0.1/dist/commands/hello/index.ts)_
 
 ## `groot help [COMMANDS]`
 
