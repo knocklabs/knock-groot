@@ -3,7 +3,7 @@ on:
   release:
     types: [created]
 jobs:
-  upload-tarballs:
+  publish-brew:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
@@ -14,47 +14,22 @@ jobs:
           node-version: "16.4.x"
       - run: yarn
 
-      - name: Pack tarballs for the release
-        id: tarball
-        run: |
-          npx oclif pack tarballs -t darwin-x64 --no-xz
-          echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
-          # echo ::set-output name=filename::"$(ls ./dist/*darwin-x64.tar.gz | head -1)"
+      - name: Pack tarball
+        run: npx oclif pack tarballs -t darwin-x64 --no-xz
 
-      # - name: Set tarball filename
-      #   id: tarball
-      #   run: echo ::set-output name=filename::"$(git rev-parse --short HEAD)"
+      - name: Query tarball
+        id: tarball
+        run: echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
 
       # - run: mv dist/*-darwin-x64.tar.gz dist/groot-${GITHUB_REF_NAME}-darwin-x64.tar.gz
 
-      - name: Upload tarballs to the release
-        run: gh release upload ${GITHUB_REF_NAME} ./dist/*.tar.gz
+      - name: Upload tarball
+        run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
-      # - name: Set variables
-      #   id: commit-sha
-      #   run: echo ::set-output name=commit-sha::"$(git rev-parse --short HEAD)"
-
-      # commit-sha7
-
-      # - name: Set commit sha
-      #   id: commit-sha
-      #   run: echo ::set-output name=commit-sha::"$(git rev-parse --short HEAD)"
-
-      - name: Check tarball filename
-        run: echo ${{ steps.tarball.outputs.filename }}
-
-        # run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-        # run:
-        #   echo ::set-output name=download-sha256::"$(shasum -a 256 ./dist/gitui-mac.tar.gz | awk '{printf $1}')"
-
-      # - name: Check outputs
-      #   run: echo ${{ steps.vars.outputs.sha_short }}
+      # - name: Check tarball filename
+      #   run: echo ${{ steps.tarball.outputs.filename }}
 
       # echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-
-
-
 
       # - name: Set SHA
       #   id: shasum
@@ -62,19 +37,10 @@ jobs:
       #     echo ::set-output name=sha::"$(shasum -a 256 dist/*-darwin-x64.tar.gz | awk '{printf $1}')"
 
       # - uses: mislav/bump-homebrew-formula-action@v2
-      #   with:
-      #     # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
-      #     formula-name: my_formula
-      #   env:
-      #     COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-
-      # - uses: mislav/bump-homebrew-formula-action@v2
       #   if: "!contains(github.ref, '-')" # skip prereleases
       #   with:
       #     formula-name: groot
-      #     formula-path: Formula/groot.rb
       #     homebrew-tap: knocklabs/homebrew-tap
-      #     base-branch: main
       #     download-url: https://example.com/foo/${{ steps.extract-version.outputs.tag-name }}.tar.gz
       #     commit-message: |
       #       {{formulaName}} {{version}}
@@ -84,6 +50,4 @@ jobs:
       #     COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
       #     # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # TODO
-  # publish-brew:
   # publish-npm:
