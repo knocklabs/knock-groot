@@ -1,0 +1,32 @@
+name: publish package
+on:
+  release:
+    types: [created]
+jobs:
+  upload-tarballs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.4.x"
+      - run: yarn
+      - run: npx oclif pack tarballs -t darwin-x64 --no-xz
+      - run: gh release upload ${GITHUB_REF} ./dist/*.tar.gz
+
+  # TODO
+  # publish-brew:
+
+  # publish-npm:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: "16.4.x"
+  #         registry-url: "https://registry.npmjs.org"
+  #         scope: "@knocklabs"
+  #     # - run: yarn
+  #     # - run: yarn publish
+  #     #   env:
+  #     #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
