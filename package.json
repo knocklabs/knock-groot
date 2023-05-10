@@ -1,6 +1,6 @@
 {
   "name": "knock-groot",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "oclif example Hello World CLI",
   "author": "Thomas @thomaswhyyou",
   "bin": {
