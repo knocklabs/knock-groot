@@ -39,7 +39,7 @@ jobs:
         with:
           formula-name: groot
           homebrew-tap: knocklabs/homebrew-tap
-          download-url: https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${{ steps.tarball.outputs.filename }}
+          download-url: "https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${{ steps.tarball.outputs.filename }}"
           commit-message: |
             {{formulaName}} {{version}}
 
