@@ -8,27 +8,22 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "16.4.x"
       - run: yarn
       - run: npx oclif pack tarballs -t darwin-x64 --no-xz
+      - run: mv dist/*-darwin-x64.tar.gz dist/groot-${GITHUB_REF_NAME}-darwin-x64.tar.gz
       - run: gh release upload ${GITHUB_REF_NAME} ./dist/*.tar.gz
+
+      # - uses: mislav/bump-homebrew-formula-action@v2
+      #   with:
+      #     # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
+      #     formula-name: my_formula
+      #   env:
+      #     COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
 
   # TODO
   # publish-brew:
-
   # publish-npm:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: "16.4.x"
-  #         registry-url: "https://registry.npmjs.org"
-  #         scope: "@knocklabs"
-  #     # - run: yarn
-  #     # - run: yarn publish
-  #     #   env:
-  #     #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
