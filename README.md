@@ -20,7 +20,7 @@ $ npm install -g knock-groot
 $ groot COMMAND
 running command...
 $ groot (--version)
-knock-groot/0.0.9 darwin-arm64 node-v16.14.0
+knock-groot/0.0.10 darwin-arm64 node-v16.14.0
 $ groot --help [COMMAND]
 USAGE
   $ groot COMMAND
@@ -48,7 +48,7 @@ USAGE
   $ groot hello
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/knocklabs/knock-groot/blob/v0.0.9/dist/commands/hello/index.ts)_
+_See code: [dist/commands/hello/index.ts](https://github.com/knocklabs/knock-groot/blob/v0.0.10/dist/commands/hello/index.ts)_
 
 ## `groot help [COMMANDS]`
 
