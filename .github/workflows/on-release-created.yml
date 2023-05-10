@@ -4,6 +4,8 @@ on:
     types: [created]
 jobs:
   upload-tarballs:
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
