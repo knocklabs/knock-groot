@@ -18,7 +18,8 @@ jobs:
         id: tarball
         run: |
           npx oclif pack tarballs -t darwin-x64 --no-xz
-          echo ::set-output name=filename::"$(ls ./dist/*darwin-x64.tar.gz | head -1)"
+          echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
+          # echo ::set-output name=filename::"$(ls ./dist/*darwin-x64.tar.gz | head -1)"
 
       # - name: Set tarball filename
       #   id: tarball
