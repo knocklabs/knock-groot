@@ -24,7 +24,7 @@ jobs:
           echo "filename=${FILENAME}" >> $GITHUB_OUTPUT
           echo "download_url=https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${FILENAME}" >> $GITHUB_OUTPUT
 
-      - name: Upload tarball
+      - name: Upload tarball to the release
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
       - name: Update brew tap
