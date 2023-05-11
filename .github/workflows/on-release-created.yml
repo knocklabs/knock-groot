@@ -36,7 +36,7 @@ jobs:
           download-url: ${{ steps.tarball.outputs.download_url }}
           create-pullrequest: true
           commit-message: |
-            {{formulaName}} {{version}}
+            release: {{formulaName}} {{version}}
 
             Created by https://github.com/mislav/bump-homebrew-formula-action
         env:
