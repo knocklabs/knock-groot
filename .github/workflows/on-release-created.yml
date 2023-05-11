@@ -17,9 +17,19 @@ jobs:
       - name: Pack tarball
         run: npx oclif pack tarballs -t darwin-x64 --no-xz
 
-      - name: Query tarball
+      # - name: Query tarball
+      #   id: tarball
+      #   run: echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
+
+      - name: Set tarball vars
         id: tarball
-        run: echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
+        run: |
+          FILENAME=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)
+          echo "filename=${FILENAME}" >> $GITHUB_OUTPUT
+          echo "download_url=https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${FILENAME}" >> $GITHUB_OUTPUT
+
+      # echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
+      # echo "download_url=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
 
       # - run: mv dist/*-darwin-x64.tar.gz dist/groot-${GITHUB_REF_NAME}-darwin-x64.tar.gz
 
@@ -27,7 +37,7 @@ jobs:
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
       - name: Check download url
-        run: echo "https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${{ steps.tarball.outputs.filename }}"
+        run: echo "${{ steps.tarball.outputs.download_url }}"
 
       # - name: Set SHA
       #   id: shasum
@@ -39,7 +49,7 @@ jobs:
         with:
           formula-name: groot
           homebrew-tap: knocklabs/homebrew-tap
-          download-url: "https://github.com/knocklabs/knock-groot/releases/download/${{ env.GITHUB_REF_NAME }}/${{ steps.tarball.outputs.filename }}"
+          download-url: ${{ steps.tarball.outputs.download_url }}
           commit-message: |
             {{formulaName}} {{version}}
 
