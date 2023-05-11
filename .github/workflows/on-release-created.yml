@@ -17,10 +17,6 @@ jobs:
       - name: Pack tarball
         run: npx oclif pack tarballs -t darwin-x64 --no-xz
 
-      # - name: Query tarball
-      #   id: tarball
-      #   run: echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
-
       - name: Set tarball vars
         id: tarball
         run: |
@@ -28,28 +24,17 @@ jobs:
           echo "filename=${FILENAME}" >> $GITHUB_OUTPUT
           echo "download_url=https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${FILENAME}" >> $GITHUB_OUTPUT
 
-      # echo "filename=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
-      # echo "download_url=$(ls ./dist/*darwin-x64.tar.gz | head -1 | xargs -n 1 basename)" >> $GITHUB_OUTPUT
-
-      # - run: mv dist/*-darwin-x64.tar.gz dist/groot-${GITHUB_REF_NAME}-darwin-x64.tar.gz
-
       - name: Upload tarball
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
-      - name: Check download url
-        run: echo "${{ steps.tarball.outputs.download_url }}"
-
-      # - name: Set SHA
-      #   id: shasum
-      #   run: |
-      #     echo ::set-output name=sha::"$(shasum -a 256 dist/*-darwin-x64.tar.gz | awk '{printf $1}')"
-
-      - uses: mislav/bump-homebrew-formula-action@v2
+      - name: Update brew tap
+        uses: mislav/bump-homebrew-formula-action@v2
         if: "!contains(github.ref, '-')" # skip prereleases
         with:
-          formula-name: groot
           homebrew-tap: knocklabs/homebrew-tap
+          formula-name: groot
           download-url: ${{ steps.tarball.outputs.download_url }}
+          create-pullrequest: true
           commit-message: |
             {{formulaName}} {{version}}
 
