@@ -27,6 +27,8 @@ jobs:
       - name: Upload tarball to the release
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
+      - run: sleep 15s
+
       - name: Update brew tap
         uses: mislav/bump-homebrew-formula-action@v2
         if: "!contains(github.ref, '-')" # skip prereleases
