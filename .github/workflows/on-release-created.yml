@@ -22,6 +22,8 @@ jobs:
           echo "filename=${FILENAME}" >> $GITHUB_OUTPUT
           echo "download_url=https://github.com/knocklabs/knock-groot/releases/download/${GITHUB_REF_NAME}/${FILENAME}" >> $GITHUB_OUTPUT
 
+      - run: gh release delete-asset ${GITHUB_REF_NAME} ${{ steps.tarball.outputs.filename }} --yes
+
       - name: Upload tarball to the release
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
         env:
