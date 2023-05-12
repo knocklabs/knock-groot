@@ -4,6 +4,8 @@ on:
     types: [created]
 jobs:
   publish-brew:
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,8 +28,6 @@ jobs:
 
       - name: Upload tarball to the release
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update brew tap
         uses: mislav/bump-homebrew-formula-action@v2
