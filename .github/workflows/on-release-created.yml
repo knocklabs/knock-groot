@@ -38,7 +38,7 @@ jobs:
           commit-message: |
             release: {{formulaName}} {{version}}
 
-            Created by https://github.com/mislav/bump-homebrew-formula-action.
+            THIS PR IS AUTOMATICALLY CREATED AND MANAGED, DO NOT TOUCH!
 
             formula: {{formulaName}}
             version: {{version}}
