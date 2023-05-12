@@ -38,7 +38,10 @@ jobs:
           commit-message: |
             release: {{formulaName}} {{version}}
 
-            Created by https://github.com/mislav/bump-homebrew-formula-action
+            Created by https://github.com/mislav/bump-homebrew-formula-action.
+
+            formula: {{formulaName}}
+            version: {{version}}
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
 
