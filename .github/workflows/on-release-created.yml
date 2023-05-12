@@ -27,6 +27,7 @@ jobs:
       - name: Upload tarball to the release
         run: gh release upload ${GITHUB_REF_NAME} ./dist/${{ steps.tarball.outputs.filename }}
 
+      # Just to ensure the uploaded tarball is available.
       - run: sleep 10s
 
       - name: Update brew tap
@@ -37,6 +38,8 @@ jobs:
           formula-name: groot
           download-url: ${{ steps.tarball.outputs.download_url }}
           create-pullrequest: true
+          # IMPORTANT: PR title format needs to be exactly as below so it can be
+          # parsed predictively by the homebrew-tap repo.
           commit-message: |
             release: {{formulaName}} {{version}}
 
